@@ -45,11 +45,10 @@ class Movies extends Component {
     this.setState({ sortColumn });
   };
 
-  render() {
+  getPagedData = () => {
     const {
       pageSize,
       currentPage,
-      genres,
       selectedGenre,
       sortColumn,
       movies: allMovies,
@@ -64,17 +63,25 @@ class Movies extends Component {
 
     const movies = paginate(sorted, currentPage, pageSize);
 
+    return { totalCount: filtered.length, data: movies };
+  };
+
+  render() {
+    const { pageSize, currentPage, genres, sortColumn } = this.state;
+
+    const { totalCount, data: movies } = this.getPagedData();
+
     return (
       <div className="row">
         <div className="col-2">
           <ListGroup
             items={genres}
-            selectedItem={selectedGenre}
+            selectedItem={this.state.selectedGenre}
             onItemSelect={this.handleGenreSelect}
           />
         </div>
         <div className="col">
-          <p> Showing {filtered.length} movies in the database.</p>
+          <p> Showing {totalCount} movies in the database.</p>
           <MoviesTable
             movies={movies}
             onDelete={this.handleDelete}
@@ -83,10 +90,10 @@ class Movies extends Component {
             sortColumn={sortColumn}
           />
           <Pagination
-            itemsCount={filtered.length}
+            itemsCount={totalCount}
             pageSize={pageSize}
-            onPageChange={this.handlePageChange}
             currentPage={currentPage}
+            onPageChange={this.handlePageChange}
           />
         </div>
       </div>

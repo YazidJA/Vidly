@@ -1,14 +1,13 @@
 import React from "react";
 
-const ListGroup = (props) => {
-  const {
-    items,
-    textProperty,
-    valueProperty,
-    onItemSelect,
-    selectedItem,
-  } = props;
-
+const ListGroup = ({
+  items,
+  textProperty,
+  valueProperty,
+  onItemSelect,
+  selectedItem,
+}) => {
+  
   return (
     <nav>
       <ul className="list-group" style={{ cursor: "pointer" }}>
@@ -33,6 +32,5 @@ ListGroup.defaultProps = {
   textProperty: "name",
   valueProperty: "_id",
 };
-
 
 export default ListGroup;
