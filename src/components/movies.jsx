@@ -5,6 +5,7 @@ import MoviesTable from "./moviesTable";
 import Pagination from "./common/pagination";
 import { paginate } from "../utilities/paginate";
 import ListGroup from "./common/list-group";
+import _ from "lodash";
 
 class Movies extends Component {
   state = {
@@ -12,6 +13,7 @@ class Movies extends Component {
     genres: [],
     pageSize: 4,
     currentPage: 1,
+    sortColumn: { path: "title", order: "asc" },
   };
 
   componentDidMount() {
@@ -21,7 +23,7 @@ class Movies extends Component {
 
   handleDelete = (movie) => {
     const movies = this.state.movies.filter((m) => m._id !== movie._id);
-    this.setState({ movies }); // if the key and value are the same we can ommit the repetition movies: movies
+    this.setState({ movies });
   };
 
   handleLike = (movie) => {
@@ -39,17 +41,18 @@ class Movies extends Component {
     this.setState({ selectedGenre: genre, currentPage: 1 });
   };
 
-  handleSort = path => {
-    console.log(path)
-  }
+  handleSort = (sortColumn) => {
+    this.setState({ sortColumn });
+  };
 
   render() {
     const {
       pageSize,
       currentPage,
-      movies: allMovies,
       genres,
       selectedGenre,
+      sortColumn,
+      movies: allMovies,
     } = this.state;
 
     const filtered =
@@ -57,7 +60,9 @@ class Movies extends Component {
         ? allMovies.filter((m) => m.genre._id === selectedGenre._id)
         : allMovies;
 
-    const movies = paginate(filtered, currentPage, pageSize);
+    const sorted = _.orderBy(filtered, [sortColumn.path], [sortColumn.order]);
+
+    const movies = paginate(sorted, currentPage, pageSize);
 
     return (
       <div className="row">
@@ -75,6 +80,7 @@ class Movies extends Component {
             onDelete={this.handleDelete}
             onLike={this.handleLike}
             onSort={this.handleSort}
+            sortColumn={sortColumn}
           />
           <Pagination
             itemsCount={filtered.length}
