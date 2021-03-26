@@ -3,7 +3,8 @@ import { Link, NavLink } from "react-router-dom";
 
 const NavBar = () => {
   return (
-    <nav className="navbar navbar-expand-lg navbar-light bg-light">
+    <nav className="navbar navbar-expand-lg navbar-dark" 
+    style={{backgroundColor: "#2c3e50"}}>
       <div className="container-fluid">
         <Link className="navbar-brand" to="/">
           Vidly
@@ -29,6 +30,12 @@ const NavBar = () => {
             </NavLink>
             <NavLink className="nav-link" to="/rentals">
               Rentals
+            </NavLink>
+            <NavLink className="nav-link" to="/login">
+              Login
+            </NavLink>
+            <NavLink className="nav-link" to="/register">
+              Register
             </NavLink>
           </div>
         </div>
