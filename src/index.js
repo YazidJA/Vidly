@@ -13,3 +13,6 @@ ReactDOM.render(
   </BrowserRouter>,
   document.getElementById("root")
 );
+
+
+import React, { Component } from 'react';
